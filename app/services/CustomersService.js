@@ -1,10 +1,9 @@
-const { Pool, Client } = require('pg')
-// pools will use environment variables
-// for connection information
-const pool = new Pool()
+const PgConnect = require('./DataBaseService');
 
-class ShortService {
-  short(scope) {
+const pgConnect = new PgConnect();
+
+class Custormers {
+  findcustomers(scope) {
     const url = scope.message.text.replace('/short', '');
     kurzerurl.short(url).then((response) => {
       scope.sendMessage(response);
@@ -14,4 +13,4 @@ class ShortService {
   }
 }
 
-module.exports = ShortService;
+module.exports = Custormers;

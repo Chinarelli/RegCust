@@ -1,8 +1,8 @@
 const telegram = require('telegram-node-bot');
 
 const MessageService = require('../services/MessageService');
-const ShortService = require('../services/ShortService');
-const SlugService = require('../services/SlugService');
+const CustomersService = require('../services/CustomersService');
+const RegionsService = require('../services/RegionsService');
 
 const telegramConfig = require('../configs/telegram');
 
@@ -17,8 +17,8 @@ const bot = new telegram.Telegram(telegramConfig.token, {
 });
 
 const messageService = new MessageService();
-const shortService = new ShortService();
-const slugService = new SlugService();
+const customersService = new CustomersService();
+const regionsService = new RegionsService();
 
 class BotController extends TelegramBaseController {
   async handle(scope) {
@@ -29,12 +29,12 @@ class BotController extends TelegramBaseController {
     messageService.start(scope);
   }
 
-  async short(scope) {
-    shortService.short(scope);
+  async customers(scope) {
+    customersService.findcustomers(scope);
   }
 
-  async slug(scope) {
-    slugService.slug(scope);
+  async regions(scope) {
+    regionsService.slug(scope);
   }
 
   async help(scope) {
@@ -44,8 +44,8 @@ class BotController extends TelegramBaseController {
   get routes() {
     return {
       start: 'start',
-      short: 'short',
-      slug: 'slug',
+      customers: 'customers',
+      regions: 'regions',
       help: 'help'
     };
   }
@@ -53,7 +53,7 @@ class BotController extends TelegramBaseController {
 
 bot.router
   .when(new TextCommand('/start', 'start'), new BotController())
-  .when(new TextCommand('/short', 'short'), new BotController())
-  .when(new TextCommand('/slug', 'slug'), new BotController())
+  .when(new TextCommand('/customers', 'customers'), new BotController())
+  .when(new TextCommand('/regions', 'regions'), new BotController())
   .when(new TextCommand('/help', 'help'), new BotController())
   .otherwise(new BotController());
