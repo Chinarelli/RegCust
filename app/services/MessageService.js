@@ -8,7 +8,7 @@ class MessageService {
   }
 
   help(scope) {
-    scope.sendMessage(`I can help you short url and slug string.\n\nYou can control me by sending these commands:\n\n/short {URL} - short URL\n/slug {string} - slug string\n/help - command list`);
+    scope.sendMessage('I can help you short url and slug string.\n\nYou can control me by sending these commands:\n\n/regions - View Representatives\n/customers {string} - Enter the representative code to locate the customers\n/agentcust {string} - Customer search by name\n/help - command list');
   }
 }
 
