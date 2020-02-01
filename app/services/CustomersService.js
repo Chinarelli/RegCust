@@ -5,17 +5,17 @@ class CustormersService {
 
   async findagent(scope) {
     let message = '';
-    let message2 = '';
+    let datacust = '';
     const codreg = scope.message.text.replace('/customers', '').replace(/^\s+|\s+$|\s+(?=\s)/g, '');
     if (codreg) {
       const agents = await this.pgConnect.query('SELECT * FROM CLIENTES WHERE cli_reg_codigo = $1', [codreg]);
       agents.rows.forEach((element) => {
-        message2 = (`${element.cli_codigo} - ${element.cli_fantasia}\n`);
-        if ((message.length + message2.length) > 4096) {
+        datacust = (`${element.cli_codigo} - ${element.cli_fantasia}\n`);
+        if ((message.length + datacust.length) > 4096) {
           scope.sendMessage(message);
-          message = message2;
+          message = datacust;
         } else {
-          message += message2;
+          message += datacust;
         }
       });
     } else {
@@ -28,7 +28,7 @@ class CustormersService {
 
   async findagentcust(scope) {
     let message = '';
-    let message2 = '';
+    let datacust = '';
     const descagent = scope.message.text.replace('/agentcust', '').trim();
     if (descagent) {
       const agents = await this.pgConnect.query('SELECT C.cli_codigo, C.cli_fantasia, R.reg_codigo, R.reg_descricao '
@@ -36,13 +36,13 @@ class CustormersService {
                                               + 'WHERE LOWER(cli_fantasia) like LOWER($1) ORDER BY R.reg_codigo', [`%${descagent}%`]);
 
       agents.rows.forEach((element) => {
-        message2 = (`${element.cli_codigo} - ${element.cli_fantasia}\n`);
-        message2 += (`${element.reg_codigo} - ${element.reg_descricao}\n\n`);
-        if ((message.length + message2.length) > 4096) {
+        datacust = (`${element.cli_codigo} - ${element.cli_fantasia}\n`);
+        datacust += (`${element.reg_codigo} - ${element.reg_descricao}\n\n`);
+        if ((message.length + datacust.length) > 4096) {
           scope.sendMessage(message);
-          message = message2;
+          message = datacust;
         } else {
-          message += message2;
+          message += datacust;
         }
       });
     } else {
